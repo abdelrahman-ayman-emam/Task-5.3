@@ -18,7 +18,7 @@ export async function getAllItems(req, res, next) {
     if (req.query.category) filter.category = req.query.category;
 
     const items = await Item.find(filter)
-      .populate('reportedBy', 'name email')
+      .populate('reportedBy', 'name')
       .sort({ createdAt: -1 })
       .lean();
     res.json({ items });
@@ -27,7 +27,7 @@ export async function getAllItems(req, res, next) {
 
 export async function getItem(req, res, next) {
   try {
-    const item = await Item.findById(req.params.id).populate('reportedBy', 'name email');
+    const item = await Item.findById(req.params.id).populate('reportedBy', 'name');
     if (!item) return res.status(404).json({ message: 'Item not found' });
     res.json({ item });
   } catch (err) { next(err); }

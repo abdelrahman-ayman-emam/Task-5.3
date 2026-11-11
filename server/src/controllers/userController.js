@@ -7,7 +7,11 @@ const updateSchema = Joi.object({
 });
 
 function publicUser(u) {
-  return { id: u._id.toString(), name: u.name, email: u.email, createdAt: u.createdAt };
+  return { id: u._id.toString(), name: u.name, createdAt: u.createdAt };
+}
+
+function accountUser(u) {
+  return { ...publicUser(u), email: u.email };
 }
 
 // GET /api/users
@@ -37,7 +41,7 @@ export async function updateUser(req, res, next) {
 
     const doc = await User.findByIdAndUpdate(req.params.id, { $set: value }, { new: true, runValidators: true });
     if (!doc) return res.status(404).json({ message: 'User not found' });
-    res.json({ user: publicUser(doc) });
+    res.json({ user: accountUser(doc) });
   } catch (err) {
     if (err.code === 11000) return res.status(409).json({ message: 'Email already used' });
     next(err);

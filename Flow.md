@@ -28,6 +28,7 @@ Create `server/.env` (if missing):
 PORT=4000
 MONGO_URI=<your MongoDB connection string>
 JWT_SECRET=<any long random string>
+CSRF_SECRET=<a separate long random string>
 JWT_EXPIRES_IN=7d
 ```
 
